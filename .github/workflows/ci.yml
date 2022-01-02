@@ -14,6 +14,8 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    timeout-minutes: 5
+
     steps:
       - uses: actions/checkout@v1
 
@@ -38,6 +40,8 @@ jobs:
 
     runs-on: macos-latest
 
+    timeout-minutes: 5
+
     steps:
       - uses: actions/checkout@v2
 
@@ -55,6 +59,8 @@ jobs:
 
     runs-on: macos-latest
     
+    timeout-minutes: 10
+
     steps:
       - uses: actions/checkout@v2
       
@@ -64,10 +70,11 @@ jobs:
       - name: Show Xcode version
         run: xcodebuild -version
 
-      - name: Test
-        run: xcodebuild test -project CalculatorApp.xcodeproj/ -scheme CalculatorApp -resultBundlePath TestResults -sdk iphonesimulator -destination "platform=iOS Simulator,name=iPhone 13"
+#現状、実行時間が長くなってしまうので、実際のテストは一旦保留にする
+#      - name: Test
+#        run: xcodebuild test -project CalculatorApp.xcodeproj/ -scheme CalculatorApp -resultBundlePath TestResults -sdk iphonesimulator -destination "platform=iOS Simulator,name=iPhone 13"
 
-      - uses: kishikawakatsumi/xcresulttool@v1.3.0
-        with:
-          path: TestResults.xcresult
-        if: success() || failure()
+#      - uses: kishikawakatsumi/xcresulttool@v1.3.0
+#        with:
+#          path: TestResults.xcresult
+#        if: success() || failure()
