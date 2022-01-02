@@ -24,23 +24,30 @@ struct ContentView: View {
                     .modifier(CalculateResultModifier())
                 VStack {
                     ForEach(calculateItems, id: \.self) { items in
-                        HStack {
-                            ForEach(items, id: \.self) { item in
-                                Button(action: {}) {
-                                    Text(item)
-                                        .font(.system(size: 30, weight: .regular))
-                                        .frame(
-                                            minWidth: 0,
-                                            maxWidth: .infinity,
-                                            minHeight: 0,
-                                            maxHeight: .infinity
-                                        )
-                                }
-                                .modifier(ButtonModifier(item: item))
-                            }
-                        }
+                        NumberView(items: items)
                     }
                 }.padding(.bottom, 40)
+            }
+        }
+    }
+}
+
+struct NumberView: View {
+    var items: [String]
+    var body: some View {
+        HStack {
+            ForEach(items, id: \.self) { item in
+                Button(action: {}) {
+                    Text(item)
+                        .font(.system(size: 30, weight: .regular))
+                        .frame(
+                            minWidth: 0,
+                            maxWidth: .infinity,
+                            minHeight: 0,
+                            maxHeight: .infinity
+                        )
+                }
+                .modifier(ButtonModifier(item: item))
             }
         }
     }
