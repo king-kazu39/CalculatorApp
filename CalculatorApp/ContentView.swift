@@ -8,13 +8,12 @@
 import SwiftUI
 
 struct ContentView: View {
-    let  buttonWidth: CGFloat = (UIScreen.main.bounds.width - 50) / 4
     let calculateItems: [[String]] = [
-        ["C", "", "", "÷"],
+        ["C", "÷"],
         ["7", "8", "9", "×"],
         ["4", "5", "6", "-"],
         ["1", "2", "3", "+"],
-        ["0", "", "="]
+        ["0", "="]
     ]
     var body: some View {
         ZStack {
@@ -22,16 +21,7 @@ struct ContentView: View {
             VStack {
                 Spacer()
                 Text("0")
-                    .foregroundColor(.white)
-                    .font(.system(size: 100, weight: .light))
-                    .padding()
-                    .lineLimit(1)
-                    .frame(
-                        width: UIScreen.main.bounds.width - 50,
-                        height: 100,
-                        alignment: .trailing
-                    )
-                    .minimumScaleFactor(0.4)
+                    .modifier(CalculateResultModifier())
                 VStack {
                     ForEach(calculateItems, id: \.self) { items in
                         HStack {
@@ -46,10 +36,7 @@ struct ContentView: View {
                                             maxHeight: .infinity
                                         )
                                 }
-                                .foregroundColor(.white)
-                                .background(Color(white: 0.2, opacity: 1))
-                                .frame(width: buttonWidth)
-                                .cornerRadius(buttonWidth)
+                                .modifier(ButtonModifier(item: item))
                             }
                         }
                     }
