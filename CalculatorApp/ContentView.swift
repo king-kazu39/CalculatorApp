@@ -15,16 +15,26 @@ struct ContentView: View {
         ["1", "2", "3", "+"],
         ["0", "="]
     ]
+    @State var selectedItem: String = "0"
+    @State var calculatedNumber: Int = 0
+    @State var calculateState: CalculateState = .initial
     var body: some View {
         ZStack {
             Color.black.ignoresSafeArea()
             VStack {
-                Spacer()
-                Text("0")
-                    .modifier(CalculateResultModifier())
+                HStack {
+                    Spacer()
+                    Text(selectedItem == "0" ? String(calculatedNumber) : selectedItem)
+                        .modifier(CalculateResultModifier())
+                }
                 VStack {
                     ForEach(calculateItems, id: \.self) { items in
-                        NumberView(items: items)
+                        NumberView(
+                            selectedItem: $selectedItem,
+                            calculatedNumber: $calculatedNumber,
+                            calculateState: $calculateState,
+                            items: items
+                        )
                     }
                 }.padding(.bottom, 40)
             }
@@ -33,11 +43,28 @@ struct ContentView: View {
 }
 
 struct NumberView: View {
+    @Binding var selectedItem: String
+    @Binding var calculatedNumber: Int
+    @Binding var calculateState: CalculateState
     var items: [String]
+    let numbers: [String] = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
+    let symbols: [String] = ["÷", "×", "-", "+", "=", "C"]
     var body: some View {
         HStack {
             ForEach(items, id: \.self) { item in
-                Button(action: {}) {
+                Button(action: {
+                    // 数字が入力された時の処理
+                    if numbers.contains(item) {
+                        // ボタンが押された時に0が入ってたら
+                        if selectedItem == "0" {
+                            return selectedItem = item
+                        }
+                        if selectedItem.count >= 9 {
+                            return
+                        }
+                        return selectedItem += item
+                    }
+                }) {
                     Text(item)
                         .font(.system(size: 30, weight: .regular))
                         .frame(
@@ -51,6 +78,10 @@ struct NumberView: View {
             }
         }
     }
+}
+
+enum CalculateState: String {
+    case initial, addition, subtraction, division, multiplication, sum
 }
 
 struct ContentView_Previews: PreviewProvider {

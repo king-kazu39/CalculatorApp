@@ -10,7 +10,7 @@ import SwiftUI
 struct ButtonModifier: ViewModifier {
     var item: String
     let buttonWidth = (UIScreen.main.bounds.width - 50) / 4
-    let numbers: [String] = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "."]
+    let numbers: [String] = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
     let symbols: [String] = ["÷", "×", "-", "+", "="]
 
     func setBackgroundColor(item: String) -> Color {
