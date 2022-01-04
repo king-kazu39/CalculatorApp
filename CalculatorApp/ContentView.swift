@@ -64,6 +64,65 @@ struct NumberView: View {
                         }
                         return selectedItem += item
                     }
+                    // 記号が入力された時の処理
+                    if symbols.contains(item) {
+                        if item == "C" {
+                            calculatedNumber = 0
+                            selectedItem = "0"
+                            calculateState = .initial
+                            return
+                        }
+                        guard let selectedNumber = Int(selectedItem) else { return }
+                        switch item {
+                        case "+":
+                            setCalculateState(
+                                state: .addition,
+                                selectedItem: &selectedItem,
+                                changedCalculateState: &calculateState,
+                                calculatedNumber: &calculatedNumber,
+                                selectedNumer: selectedNumber
+                            )
+
+                        case "-":
+                            setCalculateState(
+                                state: .subtraction,
+                                selectedItem: &selectedItem,
+                                changedCalculateState: &calculateState,
+                                calculatedNumber: &calculatedNumber,
+                                selectedNumer: selectedNumber
+                            )
+
+                        case "÷":
+                            setCalculateState(
+                                state: .division,
+                                selectedItem: &selectedItem,
+                                changedCalculateState: &calculateState,
+                                calculatedNumber: &calculatedNumber,
+                                selectedNumer: selectedNumber
+                            )
+
+                        case "×":
+                            setCalculateState(
+                                state: .multiplication,
+                                selectedItem: &selectedItem,
+                                changedCalculateState: &calculateState,
+                                calculatedNumber: &calculatedNumber,
+                                selectedNumer: selectedNumber
+                            )
+
+                        case "=":
+                            selectedItem = "0"
+                            calculate(
+                                state: calculateState,
+                                calculatedNumber: &calculatedNumber,
+                                selectedNumber: selectedNumber
+                            )
+                            calculateState = .sum
+
+                        default:
+                            calculateState = .initial
+                        }
+                    }
                 }) {
                     Text(item)
                         .font(.system(size: 30, weight: .regular))
@@ -82,6 +141,54 @@ struct NumberView: View {
 
 enum CalculateState: String {
     case initial, addition, subtraction, division, multiplication, sum
+}
+
+func setCalculateState(
+    state: CalculateState,
+    selectedItem: inout String,
+    changedCalculateState: inout CalculateState,
+    calculatedNumber: inout Int,
+    selectedNumer: Int
+) {
+    if selectedItem == "0" {
+        changedCalculateState = state
+        return
+    }
+    selectedItem = "0"
+    changedCalculateState = state
+    calculate(
+        state: state,
+        calculatedNumber: &calculatedNumber,
+        selectedNumber: selectedNumer
+    )
+}
+
+func calculate(
+    state: CalculateState,
+    calculatedNumber: inout Int,
+    selectedNumber: Int
+) {
+    if calculatedNumber == 0 {
+        calculatedNumber = selectedNumber
+        return
+    }
+
+    switch state {
+    case .addition:
+        calculatedNumber += selectedNumber
+
+    case .subtraction:
+        calculatedNumber -= selectedNumber
+
+    case .division:
+        calculatedNumber /= selectedNumber
+
+    case .multiplication:
+        calculatedNumber *= selectedNumber
+
+    default:
+        break
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {
