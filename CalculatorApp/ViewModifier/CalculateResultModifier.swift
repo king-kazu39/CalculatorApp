@@ -16,7 +16,7 @@ struct CalculateResultModifier: ViewModifier {
             .lineLimit(1)
             .frame(
                 width: UIScreen.main.bounds.width - 50,
-                height: 100,
+                height: 200,
                 alignment: .trailing
             )
             .minimumScaleFactor(0.4)

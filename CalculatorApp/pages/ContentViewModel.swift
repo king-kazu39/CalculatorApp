@@ -11,7 +11,7 @@ final class ContentViewModel: ObservableObject {
     @Published var selectedItem: String = "0"
     @Published var calculatedNumber: Int = 0
     @Published var calculateType: CalculateType = .initial
-    
+
     /// 数字が入力された時に処理するメソッド
     /// - Parameter item: ボタン名
     func handleNumbersButton(item: String) {
@@ -27,7 +27,6 @@ final class ContentViewModel: ObservableObject {
         return
     }
 
-    
     /// 四則演算記号(=イコールも含む)が入力された時に処理するメソッド
     /// - Parameter item: ボタン名
     func handleSymbolsButton(item: String) {
